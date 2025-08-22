@@ -13,3 +13,11 @@ echo "you enter $username"
 
 #argument*****
 echo "the names in $name life $0 is $1 and $2"          # ./hello1.sh aman tushar  if you run this your argument pass
+
+# if else
+read -p "$1 enter value" value
+if ((  $value % 2 == 0 )); then
+        echo "it's even"
+else
+        echo "number is odd"
+fi                #reverse if at the last of else
