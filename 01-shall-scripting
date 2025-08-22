@@ -1,1 +1,11 @@
+vim hello1.sh         #for making a shell script
 
+ls -l                 #to check the permission.
+-rw-rw-r-- 1 ubuntu ubuntu  34 Aug 22 12:01 hello1.sh
+
+chmod 754 hello1.sh         #chmod is used to give permission. In this case, we give execute(x) permission
+ls -l
+-rwxr-xr-- 1 ubuntu ubuntu  34 Aug 22 12:01 hello1.sh
+
+./hello1.sh            #this is used for executing a shell script file
+hello naman
