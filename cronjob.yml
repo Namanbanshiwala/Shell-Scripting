@@ -1,0 +1,45 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: demo-cronjob
+  namespace: nginx
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: batch-task
+        spec:
+          containers:
+          - name: backup-container
+            image: busybox:latest
+            command:
+            - sh
+            - -c
+            - |
+              echo "backup started at $(date)"
+              mkdir -p /backup
+              mkdir -p /demo-data
+              echo "Creating sample file..."
+              echo "This is test data created at $(date)" > /demo-data/sample.txt
+              cp -r /demo-data /backup
+              echo "Backup contents:"
+              ls -la /backup/demo-data/
+              echo "backup completed at $(date)"
+            volumeMounts:
+            - name: data-volume
+              mountPath: /demo-data
+            - name: backup-volume
+              mountPath: /backup
+          restartPolicy: Never
+          volumes:
+          - name: data-volume
+            hostPath:
+              path: /tmp/demo-data
+              type: DirectoryOrCreate
+          - name: backup-volume
+            hostPath:
+              path: /tmp/backup-data
+              type: DirectoryOrCreate

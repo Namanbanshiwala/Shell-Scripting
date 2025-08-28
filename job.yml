@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: demo-job
+  namespace: nginx
+spec:
+  completions: 1
+  parallelism: 1
+  template:
+    metadata:
+      labels:
+        app: batch-task
+    spec:
+      containers:
+      - name: batch-container
+        image: busybox:latest
+        command: ["sh", "-c", "echo 'hello naman kya kr rha hai' && sleep 10"]
+        volumeMounts:
+          - name: my-volume
+            mountPath: /var/www/html
+      restartPolicy: Never
+      volumes:
+        - name: my-volume
+          persistentVolumeClaim:
+            claimName: local-pvc
+
